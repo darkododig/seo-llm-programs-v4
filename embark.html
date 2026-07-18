@@ -7,630 +7,127 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     :root {
-      --accent: #3b7dd8;
-      --accent-dark: #1e50a2;
-      --accent-light: #e8f1fc;
-      --accent-mid: #5f96e0;
-      --navy: #0f1e2d;
-      --navy-mid: #1a2e42;
-      --gray-bg: #f1f5f9;
-      --gray-line: #dde5ef;
-      --text: #1a2535;
-      --text-soft: #4a5f78;
-      --text-muted: #7a94b0;
-      --white: #ffffff;
-      --gradient: linear-gradient(135deg, #3a6eb8, #47c2e8);
-      --border: #e5e7eb;
+      --accent: #3b7dd8; --accent-dark: #1e50a2; --accent-light: #e8f1fc;
+      --accent-mid: #5f96e0; --navy: #0f1e2d; --navy-mid: #1a2e42;
+      --gray-bg: #f1f5f9; --gray-line: #dde5ef; --text: #1a2535;
+      --text-soft: #4a5f78; --text-muted: #7a94b0; --white: #ffffff;
+      --gradient: linear-gradient(135deg, #3a6eb8, #47c2e8); --border: #e5e7eb;
     }
-
     html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; background: var(--gray-bg); color: var(--text); min-height: 100vh; -webkit-font-smoothing: antialiased; }
 
-    body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-      background: var(--gray-bg);
-      color: var(--text);
-      min-height: 100vh;
-      -webkit-font-smoothing: antialiased;
-    }
-
-    /* ── Topbar ── */
-    .topbar {
-      background: var(--navy);
-      position: sticky;
-      top: 0;
-      z-index: 200;
-      box-shadow: 0 1px 0 rgba(255,255,255,0.06);
-    }
-
-    .topbar-inner {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 0 32px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      height: 60px;
-    }
-
+    /* Topbar */
+    .topbar { background: var(--navy); position: sticky; top: 0; z-index: 200; box-shadow: 0 1px 0 rgba(255,255,255,0.06); }
+    .topbar-inner { max-width: 1100px; margin: 0 auto; padding: 0 32px; display: flex; align-items: center; justify-content: space-between; height: 60px; }
     .topbar-logo img { height: 28px; display: block; }
+    .program-nav { display: flex; gap: 4px; align-items: center; }
+    .program-nav a { text-decoration: none; font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding: 7px 16px; border-radius: 6px; color: rgba(255,255,255,0.45); transition: all 0.18s; border: 1px solid transparent; }
+    .program-nav a:hover { color: rgba(255,255,255,0.85); background: rgba(255,255,255,0.07); }
+    .program-nav a.active { color: #fff; background: var(--accent); border-color: var(--accent-dark); }
 
-    .program-nav {
-      display: flex;
-      gap: 4px;
-      align-items: center;
-    }
+    /* Hero */
+    .hero { background: linear-gradient(160deg, #0a1628 0%, #0d2347 45%, #1a3d6e 100%); color: #fff; padding: 80px 32px 72px; text-align: center; position: relative; overflow: hidden; }
+    .hero::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, var(--accent), transparent); }
+    #neural-canvas { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+    .hero-inner { position: relative; z-index: 2; display: flex; flex-direction: column; align-items: center; }
+    .hero-eyebrow { display: inline-flex; align-items: center; gap: 8px; background: rgba(59,125,216,0.15); border: 1px solid rgba(59,125,216,0.4); color: #93c5fd; font-size: 10px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; padding: 6px 16px; border-radius: 100px; margin-bottom: 20px; }
+    .hero-eyebrow::before { content: ''; display: block; width: 6px; height: 6px; background: #3b82f6; border-radius: 50%; }
+    .tier-label { font-size: 11px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255,255,255,0.35); margin-bottom: 12px; }
+    .hero h1 { font-size: clamp(52px, 8vw, 88px); font-weight: 900; letter-spacing: -0.03em; line-height: 0.92; margin-bottom: 18px; color: #fff; }
+    .hero h1 .program-name { background: linear-gradient(135deg, #60a5fa, #93c5fd); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .intensity-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.11); border-radius: 100px; padding: 5px 14px 5px 10px; margin-bottom: 28px; font-size: 11px; font-weight: 600; color: rgba(255,255,255,0.38); letter-spacing: 0.08em; text-transform: uppercase; }
+    .intensity-dot { width: 8px; height: 8px; border-radius: 50%; background: #4ade80; flex-shrink: 0; box-shadow: 0 0 6px rgba(74,222,128,0.5); }
+    .hero-desc { max-width: 580px; margin: 0 auto 44px; font-size: 15px; line-height: 1.8; color: rgba(255,255,255,0.62); font-weight: 400; }
+    .price-block { display: inline-flex; flex-direction: column; align-items: center; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; padding: 24px 52px; backdrop-filter: blur(12px); }
+    .price-amount { font-size: 52px; font-weight: 900; letter-spacing: -0.03em; line-height: 1; color: #fff; }
+    .price-currency { font-size: 24px; font-weight: 600; vertical-align: top; line-height: 1.5; color: rgba(255,255,255,0.65); }
+    .price-period { font-size: 13px; color: rgba(255,255,255,0.35); margin-top: 10px; letter-spacing: 0.06em; }
 
-    .program-nav a {
-      text-decoration: none;
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      padding: 7px 16px;
-      border-radius: 6px;
-      color: rgba(255,255,255,0.45);
-      transition: all 0.18s;
-      border: 1px solid transparent;
-    }
-
-    .program-nav a:hover {
-      color: rgba(255,255,255,0.85);
-      background: rgba(255,255,255,0.07);
-    }
-
-    .program-nav a.active {
-      color: #fff;
-      background: var(--accent);
-      border-color: var(--accent-dark);
-    }
-
-    /* ── Hero ── */
-    .hero {
-      background: linear-gradient(160deg, #0a1628 0%, #0d2347 45%, #1a3d6e 100%);
-      color: #fff;
-      padding: 80px 32px 72px;
-      text-align: center;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .hero::after {
-      content: '';
-      position: absolute;
-      bottom: 0; left: 0; right: 0;
-      height: 1px;
-      background: linear-gradient(90deg, transparent, var(--accent), transparent);
-    }
-
-    #neural-canvas {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-    }
-
-    .hero-inner {
-      position: relative;
-      z-index: 2;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    .hero-eyebrow {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: rgba(59,125,216,0.15);
-      border: 1px solid rgba(59,125,216,0.4);
-      color: #93c5fd;
-      font-size: 10px;
-      font-weight: 700;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      padding: 6px 16px;
-      border-radius: 100px;
-      margin-bottom: 20px;
-    }
-
-    .hero-eyebrow::before {
-      content: '';
-      display: block;
-      width: 6px;
-      height: 6px;
-      background: #3b82f6;
-      border-radius: 50%;
-    }
-
-    .tier-label {
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: rgba(255,255,255,0.35);
-      margin-bottom: 12px;
-    }
-
-    .hero h1 {
-      font-size: clamp(52px, 8vw, 88px);
-      font-weight: 900;
-      letter-spacing: -0.03em;
-      line-height: 0.92;
-      margin-bottom: 18px;
-      color: #fff;
-    }
-
-    .hero h1 .program-name {
-      background: linear-gradient(135deg, #60a5fa, #93c5fd);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    /* Low intensity badge replaces old sub-tagline */
-    .intensity-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.11);
-      border-radius: 100px;
-      padding: 5px 14px 5px 10px;
-      margin-bottom: 28px;
-      font-size: 11px;
-      font-weight: 600;
-      color: rgba(255,255,255,0.38);
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-    }
-
-    .intensity-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: #4ade80;
-      flex-shrink: 0;
-      box-shadow: 0 0 6px rgba(74,222,128,0.5);
-    }
-
-    .hero-desc {
-      max-width: 580px;
-      margin: 0 auto 44px;
-      font-size: 15px;
-      line-height: 1.8;
-      color: rgba(255,255,255,0.62);
-      font-weight: 400;
-    }
-
-    /* Price block — price only */
-    .price-block {
-      display: inline-flex;
-      flex-direction: column;
-      align-items: center;
-      background: rgba(255,255,255,0.06);
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 16px;
-      padding: 24px 52px;
-      backdrop-filter: blur(12px);
-    }
-
-    .price-amount {
-      font-size: 52px;
-      font-weight: 900;
-      letter-spacing: -0.03em;
-      line-height: 1;
-      color: #fff;
-    }
-
-    .price-currency {
-      font-size: 24px;
-      font-weight: 600;
-      vertical-align: top;
-      line-height: 1.5;
-      color: rgba(255,255,255,0.65);
-    }
-
-    .price-period {
-      font-size: 13px;
-      color: rgba(255,255,255,0.35);
-      margin-top: 6px;
-      letter-spacing: 0.06em;
-    }
-
-    /* ── Tier strip ── */
-    .tier-strip {
-      background: var(--navy-mid);
-      border-bottom: 1px solid rgba(255,255,255,0.06);
-    }
-
-    .tier-strip-inner {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 0 32px;
-      display: flex;
-      align-items: stretch;
-    }
-
-    .tier-item {
-      flex: 1;
-      padding: 16px 20px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      border-right: 1px solid rgba(255,255,255,0.06);
-      text-decoration: none;
-      cursor: pointer;
-      transition: background 0.15s;
-    }
-
+    /* Tier strip */
+    .tier-strip { background: var(--navy-mid); border-bottom: 1px solid rgba(255,255,255,0.06); }
+    .tier-strip-inner { max-width: 1100px; margin: 0 auto; padding: 0 32px; display: flex; align-items: stretch; }
+    .tier-item { flex: 1; padding: 16px 20px; display: flex; align-items: center; gap: 12px; border-right: 1px solid rgba(255,255,255,0.06); text-decoration: none; cursor: pointer; transition: background 0.15s; }
     .tier-item:last-child { border-right: none; }
     .tier-item.current { background: rgba(59,125,216,0.12); }
     .tier-item:not(.current):hover { background: rgba(255,255,255,0.04); }
-
-    .tier-dot {
-      width: 28px;
-      height: 28px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 10px;
-      font-weight: 800;
-      flex-shrink: 0;
-    }
-
+    .tier-dot { width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 800; flex-shrink: 0; }
     .tier-item.current .tier-dot { background: var(--accent); color: #fff; }
     .tier-item:not(.current) .tier-dot { background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.3); }
-
-    .tier-info .tier-name {
-      font-size: 11px;
-      font-weight: 800;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-    }
-
+    .tier-info .tier-name { font-size: 11px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; }
     .tier-item.current .tier-name { color: #93c5fd; }
     .tier-item:not(.current) .tier-name { color: rgba(255,255,255,0.3); }
-
     .tier-info .tier-price { font-size: 12px; }
     .tier-item.current .tier-price { color: rgba(255,255,255,0.55); }
     .tier-item:not(.current) .tier-price { color: rgba(255,255,255,0.2); }
 
-    /* ── Main ── */
-    main {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 56px 32px 96px;
-    }
+    /* Main */
+    main { max-width: 1100px; margin: 0 auto; padding: 56px 32px 96px; }
+    .section-label { font-size: 10px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 5px; background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .section-title { font-size: 22px; font-weight: 700; color: var(--navy); margin-bottom: 24px; padding-bottom: 16px; border-bottom: 1.5px solid var(--gray-line); }
 
-    .section-label {
-      font-size: 10px;
-      font-weight: 700;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      margin-bottom: 5px;
-      background: var(--gradient);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    .section-title {
-      font-size: 22px;
-      font-weight: 700;
-      color: var(--navy);
-      margin-bottom: 24px;
-      padding-bottom: 16px;
-      border-bottom: 1.5px solid var(--gray-line);
-    }
-
-    /* ── Card grid ── */
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 16px;
-      margin-bottom: 48px;
-    }
-
-    .card {
-      background: var(--white);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 24px;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      transition: box-shadow 0.18s, border-color 0.18s;
-    }
-
-    .card:hover {
-      box-shadow: 0 4px 16px rgba(0,0,0,0.07);
-      border-color: rgba(72,122,185,0.3);
-    }
-
-    .card-top {
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-    }
-
-    .card-icon {
-      width: 44px;
-      height: 44px;
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: linear-gradient(135deg, rgba(58,110,184,0.12), rgba(71,194,232,0.12));
-      flex-shrink: 0;
-    }
-
+    /* Card grid */
+    .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 48px; }
+    .card { background: var(--white); border: 1px solid var(--border); border-radius: 16px; padding: 24px; display: flex; flex-direction: column; gap: 12px; transition: box-shadow 0.18s, border-color 0.18s; }
+    .card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.07); border-color: rgba(72,122,185,0.3); }
+    .card-top { display: flex; align-items: flex-start; justify-content: space-between; }
+    .card-icon { width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, rgba(58,110,184,0.12), rgba(71,194,232,0.12)); flex-shrink: 0; }
     .card-icon svg { width: 22px; height: 22px; color: #3a8ec8; }
-
-    .info-btn {
-      background: none;
-      border: 1px solid var(--gray-line);
-      border-radius: 50%;
-      width: 28px;
-      height: 28px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      color: var(--text-muted);
-      transition: all 0.15s;
-      flex-shrink: 0;
-    }
-
-    .info-btn:hover {
-      background: var(--accent-light);
-      border-color: var(--accent);
-      color: var(--accent);
-    }
-
+    .info-btn { background: none; border: 1px solid var(--gray-line); border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--text-muted); transition: all 0.15s; flex-shrink: 0; }
+    .info-btn:hover { background: var(--accent-light); border-color: var(--accent); color: var(--accent); }
     .info-btn svg { width: 14px; height: 14px; }
+    .card-title { font-size: 15px; font-weight: 700; color: var(--navy); line-height: 1.35; }
+    .card-qty { display: inline-block; font-size: 12px; font-weight: 700; letter-spacing: 0.03em; padding: 3px 10px; border-radius: 8px; background-image: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; box-shadow: inset 0 0 0 200px rgba(58,110,184,0.09); width: fit-content; }
 
-    .card-title {
-      font-size: 15px;
-      font-weight: 700;
-      color: var(--navy);
-      line-height: 1.35;
-    }
-
-    .card-qty {
-      display: inline-block;
-      font-size: 12px;
-      font-weight: 700;
-      letter-spacing: 0.03em;
-      padding: 3px 10px;
-      border-radius: 8px;
-      background-image: var(--gradient);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      box-shadow: inset 0 0 0 200px rgba(58,110,184,0.09);
-      width: fit-content;
-    }
-
-    /* ── Modal overlay ── */
-    .modal-overlay {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(10,22,40,0.72);
-      backdrop-filter: blur(4px);
-      z-index: 500;
-      align-items: center;
-      justify-content: center;
-      padding: 24px;
-    }
-
+    /* Modal */
+    .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(10,22,40,0.72); backdrop-filter: blur(4px); z-index: 500; align-items: center; justify-content: center; padding: 24px; }
     .modal-overlay.open { display: flex; }
-
-    .modal-card {
-      background: var(--white);
-      border-radius: 20px;
-      padding: 36px;
-      max-width: 540px;
-      width: 100%;
-      position: relative;
-      box-shadow: 0 24px 64px rgba(0,0,0,0.28);
-      animation: modalIn 0.2s ease;
-    }
-
-    @keyframes modalIn {
-      from { opacity: 0; transform: translateY(8px) scale(0.98); }
-      to   { opacity: 1; transform: translateY(0) scale(1); }
-    }
-
-    .modal-close {
-      position: absolute;
-      top: 16px;
-      right: 16px;
-      background: var(--gray-bg);
-      border: none;
-      border-radius: 50%;
-      width: 32px;
-      height: 32px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      color: var(--text-muted);
-      transition: all 0.15s;
-    }
-
+    .modal-card { background: var(--white); border-radius: 20px; padding: 36px; max-width: 540px; width: 100%; position: relative; box-shadow: 0 24px 64px rgba(0,0,0,0.28); animation: modalIn 0.2s ease; }
+    @keyframes modalIn { from { opacity: 0; transform: translateY(8px) scale(0.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
+    .modal-close { position: absolute; top: 16px; right: 16px; background: var(--gray-bg); border: none; border-radius: 50%; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--text-muted); transition: all 0.15s; }
     .modal-close:hover { background: var(--gray-line); color: var(--text); }
     .modal-close svg { width: 16px; height: 16px; }
-
-    .modal-icon {
-      width: 48px;
-      height: 48px;
-      border-radius: 14px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: linear-gradient(135deg, rgba(58,110,184,0.12), rgba(71,194,232,0.12));
-      margin-bottom: 14px;
-    }
-
+    .modal-icon { width: 48px; height: 48px; border-radius: 14px; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, rgba(58,110,184,0.12), rgba(71,194,232,0.12)); margin-bottom: 14px; }
     .modal-icon svg { width: 24px; height: 24px; color: #3a8ec8; }
-
-    .modal-title {
-      font-size: 17px;
-      font-weight: 800;
-      color: var(--navy);
-      margin-bottom: 6px;
-      line-height: 1.3;
-      padding-right: 32px;
-    }
-
-    .modal-qty {
-      display: inline-block;
-      font-size: 12px;
-      font-weight: 700;
-      padding: 3px 10px;
-      border-radius: 8px;
-      background-image: var(--gradient);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      box-shadow: inset 0 0 0 200px rgba(58,110,184,0.09);
-      margin-bottom: 20px;
-      width: fit-content;
-    }
-
-    .modal-divider {
-      height: 1px;
-      background: var(--gray-line);
-      margin-bottom: 20px;
-    }
-
-    .modal-desc {
-      font-size: 13.5px;
-      line-height: 1.8;
-      color: var(--text-soft);
-    }
-
+    .modal-title { font-size: 17px; font-weight: 800; color: var(--navy); margin-bottom: 6px; line-height: 1.3; padding-right: 32px; }
+    .modal-qty { display: inline-block; font-size: 12px; font-weight: 700; padding: 3px 10px; border-radius: 8px; background-image: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; box-shadow: inset 0 0 0 200px rgba(58,110,184,0.09); margin-bottom: 20px; width: fit-content; }
+    .modal-divider { height: 1px; background: var(--gray-line); margin-bottom: 20px; }
+    .modal-desc { font-size: 13.5px; line-height: 1.8; color: var(--text-soft); }
     .modal-desc p { margin-bottom: 12px; }
     .modal-desc p:last-child { margin-bottom: 0; }
     .modal-desc strong { color: var(--text); font-weight: 600; }
-
-    .modal-desc ul {
-      margin: 6px 0 14px 18px;
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
-
-    .modal-tier-grid {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-      margin: 12px 0 16px;
-    }
-
-    .modal-tier-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 8px 14px;
-      border-radius: 8px;
-      background: rgba(58,110,184,0.05);
-      border: 1px solid rgba(58,110,184,0.12);
-    }
-
-    .modal-tier-row.active-tier {
-      background: rgba(59,125,216,0.1);
-      border-color: rgba(59,125,216,0.3);
-    }
-
-    .modal-tier-name {
-      font-size: 13px;
-      font-weight: 700;
-      color: var(--text);
-    }
-
+    .modal-desc em { font-style: italic; color: var(--text-muted); }
+    .modal-desc ul { margin: 6px 0 14px 18px; display: flex; flex-direction: column; gap: 4px; }
+    .modal-tier-grid { display: flex; flex-direction: column; gap: 6px; margin: 12px 0 16px; }
+    .modal-tier-row { display: flex; align-items: center; justify-content: space-between; padding: 8px 14px; border-radius: 8px; background: rgba(58,110,184,0.05); border: 1px solid rgba(58,110,184,0.12); }
+    .modal-tier-row.active-tier { background: rgba(59,125,216,0.1); border-color: rgba(59,125,216,0.3); }
+    .modal-tier-name { font-size: 13px; font-weight: 700; color: var(--text); }
     .modal-tier-row.active-tier .modal-tier-name { color: var(--accent-dark); }
-
-    .modal-tier-level {
-      font-size: 12px;
-      color: var(--text-muted);
-    }
-
+    .modal-tier-level { font-size: 12px; color: var(--text-muted); }
     .modal-tier-row.active-tier .modal-tier-level { color: var(--accent); }
 
-    /* ── Notes section ── */
-    .notes {
-      background: var(--white);
-      border: 1px solid var(--border);
-      border-left: 3px solid var(--accent);
-      border-radius: 0 14px 14px 0;
-      padding: 24px 28px;
-    }
-
-    .notes-label {
-      font-size: 10px;
-      font-weight: 700;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      margin-bottom: 16px;
-      background: var(--gradient);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    .notes p {
-      font-size: 14px;
-      line-height: 1.75;
-      color: var(--text-soft);
-      margin-bottom: 12px;
-    }
-
+    /* Notes */
+    .notes { background: var(--white); border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: 0 14px 14px 0; padding: 24px 28px; }
+    .notes-label { font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 16px; background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .notes p { font-size: 14px; line-height: 1.75; color: var(--text-soft); margin-bottom: 12px; }
     .notes p:last-child { margin-bottom: 0; }
     .notes strong { color: var(--text); font-weight: 600; }
 
-    /* ── Footer ── */
-    footer {
-      background: #f1f5f9;
-      text-align: center;
-      padding: 24px;
-      font-size: 12px;
-      color: var(--text-muted);
-    }
+    /* Footer */
+    footer { background: #f1f5f9; text-align: center; padding: 24px; font-size: 12px; color: var(--text-muted); }
+    footer a { background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; text-decoration: none; }
 
-    footer a {
-      background: var(--gradient);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      text-decoration: none;
-    }
-
-    /* ── Responsive ── */
-    @media (max-width: 900px) {
-      .grid { grid-template-columns: repeat(2, 1fr); }
-    }
-
+    @media (max-width: 900px) { .grid { grid-template-columns: repeat(2, 1fr); } }
     @media (max-width: 600px) {
-      .topbar-inner { padding: 0 20px; }
-      .hero { padding: 60px 20px 52px; }
-      .tier-strip-inner { padding: 0; overflow-x: auto; }
-      .tier-item { padding: 12px 14px; min-width: 110px; }
-      .program-nav { display: none; }
-      .grid { grid-template-columns: 1fr; }
-      main { padding: 40px 20px 60px; }
-      .modal-card { padding: 24px; }
+      .topbar-inner { padding: 0 20px; } .hero { padding: 60px 20px 52px; }
+      .tier-strip-inner { padding: 0; overflow-x: auto; } .tier-item { padding: 12px 14px; min-width: 110px; }
+      .program-nav { display: none; } .grid { grid-template-columns: 1fr; }
+      main { padding: 40px 20px 60px; } .modal-card { padding: 24px; }
     }
   </style>
 </head>
 <body>
 
-<!-- Topbar -->
 <nav class="topbar">
   <div class="topbar-inner">
     <a class="topbar-logo" href="https://www.wisevu.com">
@@ -644,18 +141,14 @@
   </div>
 </nav>
 
-<!-- Hero -->
 <section class="hero">
   <canvas id="neural-canvas"></canvas>
   <div class="hero-inner">
     <div class="hero-eyebrow">SEO / AI Search Program Overview</div>
     <p class="tier-label">Tier 1 of 3</p>
     <h1><span class="program-name">Embark</span></h1>
-    <div class="intensity-badge">
-      <span class="intensity-dot"></span>
-      Low Intensity
-    </div>
-    <p class="hero-desc">Powered by Wisevu's proprietary SEO &amp; AI/LLM optimization frameworks, the Embark program is built on proven authority-building methodologies designed to maximize sustainable rankings, authority and long-term organic growth.</p>
+    <div class="intensity-badge"><span class="intensity-dot"></span>Low Intensity</div>
+    <p class="hero-desc">Powered by Wisevu's proprietary SEO and AI optimization frameworks, the Embark program is built on proven authority-building methodologies designed to maximize sustainable rankings and long-term organic growth across both traditional search and AI-generated results.</p>
     <div class="price-block">
       <div class="price-amount"><span class="price-currency">$</span>3,500</div>
       <div class="price-period">USD &nbsp;/&nbsp; month</div>
@@ -663,29 +156,19 @@
   </div>
 </section>
 
-<!-- Tier strip -->
 <div class="tier-strip">
   <div class="tier-strip-inner">
     <a href="embark.html" class="tier-item current">
       <div class="tier-dot">1</div>
-      <div class="tier-info">
-        <div class="tier-name">Embark</div>
-        <div class="tier-price">$3,500 / mo</div>
-      </div>
+      <div class="tier-info"><div class="tier-name">Embark</div><div class="tier-price">$3,500 / mo</div></div>
     </a>
     <a href="ascend.html" class="tier-item">
       <div class="tier-dot">2</div>
-      <div class="tier-info">
-        <div class="tier-name">Ascend</div>
-        <div class="tier-price">$5,500 / mo</div>
-      </div>
+      <div class="tier-info"><div class="tier-name">Ascend</div><div class="tier-price">$5,500 / mo</div></div>
     </a>
     <a href="thrive.html" class="tier-item">
       <div class="tier-dot">3</div>
-      <div class="tier-info">
-        <div class="tier-name">Thrive</div>
-        <div class="tier-price">$7,000 / mo</div>
-      </div>
+      <div class="tier-info"><div class="tier-name">Thrive</div><div class="tier-price">$7,000 / mo</div></div>
     </a>
   </div>
 </div>
@@ -693,205 +176,164 @@
 <main>
   <p class="section-label">What's Included</p>
   <h2 class="section-title">Monthly Deliverables</h2>
-
   <div class="grid">
 
-    <!-- Card 1 -->
     <div class="card">
       <div class="card-top">
         <div class="card-icon">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <!-- Connection lines -->
-            <path d="M4 8L12 4M4 8L12 12M4 16L12 12M4 16L12 20M12 4L20 12M12 12L20 12M12 20L20 12" stroke-width="1.5"/>
-            <!-- Input nodes -->
-            <circle cx="4" cy="8" r="2"/>
-            <circle cx="4" cy="16" r="2"/>
-            <!-- Hidden nodes -->
-            <circle cx="12" cy="4" r="2"/>
-            <circle cx="12" cy="12" r="2"/>
-            <circle cx="12" cy="20" r="2"/>
-            <!-- Output node -->
+            <path d="M4 12L12 7M4 12L12 17M12 7L20 12M12 17L20 12" stroke-width="1.5"/>
+            <circle cx="4" cy="12" r="2"/>
+            <circle cx="12" cy="7" r="2"/>
+            <circle cx="12" cy="17" r="2"/>
             <circle cx="20" cy="12" r="2"/>
           </svg>
         </div>
-        <button class="info-btn" onclick="openModal(this, 'card1')" aria-label="Learn more">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+        <button class="info-btn" onclick="openModal(this,'card1')" aria-label="Learn more">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
         </button>
       </div>
-      <div class="card-title">Wisevu™ Exclusive SEO &amp; AI/LLM Programming</div>
+      <div class="card-title">Wisevu&trade; Exclusive SEO &amp; AI/LLM Programming</div>
       <div class="card-qty">x1 core product/service</div>
     </div>
 
-    <!-- Card 2 -->
     <div class="card">
       <div class="card-top">
         <div class="card-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
-          </svg>
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"/></svg>
         </div>
-        <button class="info-btn" onclick="openModal(this, 'card2')" aria-label="Learn more">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+        <button class="info-btn" onclick="openModal(this,'card2')" aria-label="Learn more">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
         </button>
       </div>
       <div class="card-title">New Authority Content</div>
       <div class="card-qty">x3 pages</div>
     </div>
 
-    <!-- Card 3 -->
     <div class="card">
       <div class="card-top">
         <div class="card-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
-          </svg>
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10"/></svg>
         </div>
-        <button class="info-btn" onclick="openModal(this, 'card3')" aria-label="Learn more">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+        <button class="info-btn" onclick="openModal(this,'card3')" aria-label="Learn more">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
         </button>
       </div>
       <div class="card-title">Existing Content Optimization</div>
       <div class="card-qty">x1 page</div>
     </div>
 
-    <!-- Card 4 -->
     <div class="card">
       <div class="card-top">
         <div class="card-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z" />
-          </svg>
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z"/></svg>
         </div>
-        <button class="info-btn" onclick="openModal(this, 'card4')" aria-label="Learn more">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+        <button class="info-btn" onclick="openModal(this,'card4')" aria-label="Learn more">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
         </button>
       </div>
       <div class="card-title">CRO Optimization</div>
       <div class="card-qty">x1 page</div>
     </div>
 
-    <!-- Card 5 -->
     <div class="card">
       <div class="card-top">
         <div class="card-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M7.5 14.25v2.25m3-4.5v4.5m3-6.75v6.75m3-9v9M6 20.25h12A2.25 2.25 0 0020.25 18V6A2.25 2.25 0 0018 3.75H6A2.25 2.25 0 003.75 6v12A2.25 2.25 0 006 20.25z" />
-          </svg>
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M7.5 14.25v2.25m3-4.5v4.5m3-6.75v6.75m3-9v9M6 20.25h12A2.25 2.25 0 0020.25 18V6A2.25 2.25 0 0018 3.75H6A2.25 2.25 0 003.75 6v12A2.25 2.25 0 006 20.25z"/></svg>
         </div>
-        <button class="info-btn" onclick="openModal(this, 'card5')" aria-label="Learn more">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+        <button class="info-btn" onclick="openModal(this,'card5')" aria-label="Learn more">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
         </button>
       </div>
       <div class="card-title">Keyword Optimization &amp; A/B Testing</div>
       <div class="card-qty">x1 page</div>
     </div>
 
-    <!-- Card 6 -->
     <div class="card">
       <div class="card-top">
         <div class="card-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 6.75L22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3l-4.5 16.5" />
-          </svg>
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17.25 6.75L22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3l-4.5 16.5"/></svg>
         </div>
-        <button class="info-btn" onclick="openModal(this, 'card6')" aria-label="Learn more">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+        <button class="info-btn" onclick="openModal(this,'card6')" aria-label="Learn more">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
         </button>
       </div>
       <div class="card-title">Meta Tag &amp; Structured Schema Optimization</div>
       <div class="card-qty">x1 page</div>
     </div>
 
-    <!-- Card 7 -->
     <div class="card">
       <div class="card-top">
         <div class="card-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z" />
-          </svg>
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z"/></svg>
         </div>
-        <button class="info-btn" onclick="openModal(this, 'card7')" aria-label="Learn more">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+        <button class="info-btn" onclick="openModal(this,'card7')" aria-label="Learn more">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
         </button>
       </div>
       <div class="card-title">Internal Architecture Optimization</div>
       <div class="card-qty">x1 page</div>
     </div>
 
-    <!-- Card 8 -->
     <div class="card">
       <div class="card-top">
         <div class="card-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M5.25 14.25h13.5m-13.5 0a3 3 0 01-3-3m3 3a3 3 0 100 6h13.5a3 3 0 100-6m-16.5-3a3 3 0 013-3h13.5a3 3 0 013 3m-19.5 0a4.5 4.5 0 01.9-2.7L5.737 5.1a3.375 3.375 0 012.7-1.35h7.126c1.062 0 2.062.5 2.7 1.35l2.587 3.45a4.5 4.5 0 01.9 2.7m0 0a3 3 0 01-3 3m0 3h.008v.008h-.008v-.008zm0-6h.008v.008h-.008v-.008zm-3 6h.008v.008h-.008v-.008zm0-6h.008v.008h-.008v-.008z" />
-          </svg>
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5.25 14.25h13.5m-13.5 0a3 3 0 01-3-3m3 3a3 3 0 100 6h13.5a3 3 0 100-6m-16.5-3a3 3 0 013-3h13.5a3 3 0 013 3m-19.5 0a4.5 4.5 0 01.9-2.7L5.737 5.1a3.375 3.375 0 012.7-1.35h7.126c1.062 0 2.062.5 2.7 1.35l2.587 3.45a4.5 4.5 0 01.9 2.7m0 0a3 3 0 01-3 3m0 3h.008v.008h-.008v-.008zm0-6h.008v.008h-.008v-.008zm-3 6h.008v.008h-.008v-.008zm0-6h.008v.008h-.008v-.008z"/></svg>
         </div>
-        <button class="info-btn" onclick="openModal(this, 'card8')" aria-label="Learn more">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+        <button class="info-btn" onclick="openModal(this,'card8')" aria-label="Learn more">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
         </button>
       </div>
       <div class="card-title">Core Web Vitals / Technical SEO Optimization</div>
       <div class="card-qty">x1 page</div>
     </div>
 
-    <!-- Card 9 -->
     <div class="card">
       <div class="card-top">
         <div class="card-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244" />
-          </svg>
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244"/></svg>
         </div>
-        <button class="info-btn" onclick="openModal(this, 'card9')" aria-label="Learn more">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+        <button class="info-btn" onclick="openModal(this,'card9')" aria-label="Learn more">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
         </button>
       </div>
-      <div class="card-title">Digital PR Outreach — Tier 1 Backlinks</div>
-      <div class="card-qty">x2–3</div>
+      <div class="card-title">Digital PR Outreach &mdash; Tier 1 Backlinks</div>
+      <div class="card-qty">x2&ndash;3</div>
     </div>
 
-    <!-- Card 10 -->
     <div class="card">
       <div class="card-top">
         <div class="card-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M7.217 10.907a2.25 2.25 0 100 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186l9.566-5.314m-9.566 7.5l9.566 5.314m0 0a2.25 2.25 0 103.935 2.186 2.25 2.25 0 00-3.935-2.186zm0-12.814a2.25 2.25 0 103.933-2.185 2.25 2.25 0 00-3.933 2.185z" />
-          </svg>
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M7.217 10.907a2.25 2.25 0 100 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186l9.566-5.314m-9.566 7.5l9.566 5.314m0 0a2.25 2.25 0 103.935 2.186 2.25 2.25 0 00-3.935-2.186zm0-12.814a2.25 2.25 0 103.933-2.185 2.25 2.25 0 00-3.933 2.185z"/></svg>
         </div>
-        <button class="info-btn" onclick="openModal(this, 'card10')" aria-label="Learn more">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+        <button class="info-btn" onclick="openModal(this,'card10')" aria-label="Learn more">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
         </button>
       </div>
       <div class="card-title">Supporting Tier 2 Backlinks</div>
       <div class="card-qty">x10</div>
     </div>
 
-    <!-- Card 11 -->
     <div class="card">
       <div class="card-top">
         <div class="card-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" />
-          </svg>
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"/></svg>
         </div>
-        <button class="info-btn" onclick="openModal(this, 'card11')" aria-label="Learn more">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+        <button class="info-btn" onclick="openModal(this,'card11')" aria-label="Learn more">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
         </button>
       </div>
       <div class="card-title">Authority Protection &amp; SEO Integrity Maintenance</div>
       <div class="card-qty">x1 site</div>
     </div>
 
-    <!-- Card 12 -->
     <div class="card">
       <div class="card-top">
         <div class="card-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5m-9-6h.008v.008H12v-.008zM12 15h.008v.008H12V15zm0 2.25h.008v.008H12v-.008zM9.75 15h.008v.008H9.75V15zm0 2.25h.008v.008H9.75v-.008zM7.5 15h.008v.008H7.5V15zm0 2.25h.008v.008H7.5v-.008zm6.75-4.5h.008v.008h-.008v-.008zm0 2.25h.008v.008h-.008V15zm0 2.25h.008v.008h-.008v-.008zm2.25-4.5h.008v.008H16.5v-.008zm0 2.25h.008v.008H16.5V15z" />
-          </svg>
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5m-9-6h.008v.008H12v-.008zM12 15h.008v.008H12V15zm0 2.25h.008v.008H12v-.008zM9.75 15h.008v.008H9.75V15zm0 2.25h.008v.008H9.75v-.008zM7.5 15h.008v.008H7.5V15zm0 2.25h.008v.008H7.5v-.008zm6.75-4.5h.008v.008h-.008v-.008zm0 2.25h.008v.008h-.008V15zm0 2.25h.008v.008h-.008v-.008zm2.25-4.5h.008v.008H16.5v-.008zm0 2.25h.008v.008H16.5V15z"/></svg>
         </div>
-        <button class="info-btn" onclick="openModal(this, 'card12')" aria-label="Learn more">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+        <button class="info-btn" onclick="openModal(this,'card12')" aria-label="Learn more">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
         </button>
       </div>
       <div class="card-title">Monthly Reporting &amp; Strategy Call</div>
@@ -900,25 +342,22 @@
 
   </div>
 
-  <!-- Notes -->
   <div class="notes">
     <p class="notes-label">Important Program Notes</p>
     <p><strong>Strategic Adaptability Clause:</strong> As search landscapes and LLM/AI technologies evolve, our deliverables are subject to strategic adjustments. This ensures your business remains aligned with the latest industry standards and the dynamic nature of search engine algorithms.</p>
     <p><strong>Delivery &amp; Reporting:</strong> Deliverables are due monthly and/or quarterly. Deliverables that may be outstanding due to delays outside of Wisevu's control will be delivered over the following quarter.</p>
-    <p><strong>Proprietary Systems:</strong> Clients receive reporting on link building and content initiatives. Our additional SEO/LLM systems and optimization methodologies are proprietary and designed to maximize results — these internal frameworks remain confidential as part of the unique process that drives consistent rankings and growth.</p>
+    <p><strong>Proprietary Systems:</strong> Clients receive reporting on link building and content initiatives. Our additional SEO/LLM systems and optimization methodologies are proprietary and designed to maximize results &mdash; these internal frameworks remain confidential as part of the unique process that drives consistent rankings and growth.</p>
   </div>
-
 </main>
 
 <footer>
-  <p>&copy; 2026 Wisevu &nbsp;·&nbsp; <a href="https://www.wisevu.com">wisevu.com</a></p>
+  <p>&copy; 2026 Wisevu &nbsp;&middot;&nbsp; <a href="https://www.wisevu.com">wisevu.com</a></p>
 </footer>
 
-<!-- Modal -->
 <div class="modal-overlay" id="modal-overlay" onclick="handleOverlayClick(event)">
   <div class="modal-card">
     <button class="modal-close" onclick="closeModal()" aria-label="Close">
-      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
     </button>
     <div class="modal-icon" id="modal-icon"></div>
     <div class="modal-title" id="modal-title"></div>
@@ -929,252 +368,207 @@
 </div>
 
 <script>
-/* ── Popup data ── */
-const popupData = {
+var popupData = {
   card1: {
-    title: 'Wisevu™ Exclusive SEO & AI/LLM Programming',
-    qty: 'x1 core product/service',
-    descHTML: `
-      <p>Each base program covers 1–2 treatments or categories in one location, at a specific competition level.</p>
-      <div class="modal-tier-grid">
-        <div class="modal-tier-row active-tier">
-          <span class="modal-tier-name">Embark</span>
-          <span class="modal-tier-level">Low → Medium</span>
-        </div>
-        <div class="modal-tier-row">
-          <span class="modal-tier-name">Ascend</span>
-          <span class="modal-tier-level">Medium → High</span>
-        </div>
-        <div class="modal-tier-row">
-          <span class="modal-tier-name">Thrive</span>
-          <span class="modal-tier-level">High</span>
-        </div>
-      </div>
-      <p><strong>Your base program establishes the foundation:</strong></p>
-      <ul>
-        <li>SEO/AI Optimization strategy tailored to your market</li>
-        <li>Authority building at the scale required for your competition level</li>
-        <li>Optimization to ensure visibility in your chosen location/market</li>
-      </ul>
-      <p>Embark is best for brands targeting 1–2 products/services/treatments or categories in a low → medium competition market.</p>
-    `
+    title: "Wisevu™ Exclusive SEO & AI/LLM Programming",
+    qty: "x1 core product/service",
+    desc: '<p>Each base program covers 1–2 treatments or categories in one location, at a specific competition level.</p><div class="modal-tier-grid"><div class="modal-tier-row active-tier"><span class="modal-tier-name">Embark</span><span class="modal-tier-level">Low → Medium</span></div><div class="modal-tier-row"><span class="modal-tier-name">Ascend</span><span class="modal-tier-level">Medium → High</span></div><div class="modal-tier-row"><span class="modal-tier-name">Thrive</span><span class="modal-tier-level">High</span></div></div><p><strong>Your base program establishes the foundation:</strong></p><ul><li>SEO/AI Optimization strategy tailored to your market</li><li>Authority building at the scale required for your competition level</li><li>Optimization to ensure visibility in your chosen location/market</li></ul><p>Embark is best for brands targeting 1–2 products/services/treatments or categories in a low → medium competition market.</p>'
   },
   card2: {
-    title: 'New Authority Content',
-    qty: 'x3 pages',
-    descHTML: `
-      <p>Every month, based on ongoing competitor and benchmark analysis, we identify the highest-impact content opportunities and implement E-E-A-T-infused pages on your website — selected to provide the best possible rankings and authority returns at that point in time.</p>
-      <p>Each piece is strategically chosen to strengthen your topical authority, improve organic visibility, and align with both traditional search engine guidelines and LLM/AI discovery standards.</p>
-      <p><em>May be substituted with existing content optimization where strategically appropriate. Each Wisevu-published guest post or editorial counts toward the Client's monthly New Content deliverables.</em></p>
-    `
+    title: "New Authority Content",
+    qty: "x3 pages",
+    desc: "<p>Each month, we analyze your competitors, search results and industry benchmarks to identify the highest-impact content opportunities. Our industry-experienced writers and SEO specialists then create authoritative pages designed to outperform competing content and strengthen your topical authority.</p><p>Every page is strategically optimized to be favoured by both traditional search engine algorithms and AI/LLM models, while incorporating strong user experience and conversion-focused copywriting to turn more visitors into customers.</p><p><em>May be substituted with existing content optimization where strategically appropriate. Each Wisevu-published guest post or editorial counts toward the Client's monthly New Content deliverables.</em></p>"
   },
   card3: {
-    title: 'Existing Content Optimization',
-    qty: 'x1 page',
-    descHTML: `
-      <p>Every month, we identify the page on your website most in need of attention and apply focused, high-impact optimization to it.</p>
-      <p>Using competitor analysis and benchmark data, we improve the quality, depth, and structure of the content to align with E-E-A-T (Experience, Expertise, Authoritativeness, Trustworthiness) — the core quality framework used by Google and increasingly referenced by LLMs when evaluating content credibility.</p>
-      <p>The goal is to ensure every optimized page meets modern search and AI discovery standards, closing gaps against competitors and strengthening your site's overall authority signal over time.</p>
-    `
+    title: "Existing Content Optimization",
+    qty: "x1 page",
+    desc: "<p>Every month, we identify the page(s) on your website most in need of attention and apply focused, high-impact optimization to it.</p><p>Using competitor analysis and benchmark data, we improve the quality, depth, and structure of the content to align with E-E-A-T (Experience, Expertise, Authoritativeness, Trustworthiness) — the core quality framework used by Google and increasingly referenced by LLMs when evaluating content credibility.</p><p>The goal is to ensure every optimized page meets modern search and AI discovery standards, closing gaps against competitors and strengthening your site's overall authority signal over time.</p><p><em>May be substituted with new content development where strategically appropriate.</em></p>"
   },
   card4: {
-    title: 'CRO Optimization',
-    qty: 'x1 page',
-    descHTML: `
-      <p>Conversion rate optimization focused on improving the effectiveness of your pages at turning visitors into leads or clients.</p>
-      <p>We analyze user behavior signals and apply targeted improvements to layouts, calls-to-action, trust indicators, and page flow. May be substituted with existing content optimization where strategically appropriate.</p>
-    `
+    title: "CRO Optimization",
+    qty: "x1 page",
+    desc: "<p>We combine healthcare industry expertise with competitor benchmarking and user-behaviour analysis to understand what prospective patients value—and how your brand should be positioned to earn their trust.</p><p>We then optimize key elements such as messaging, page structure, calls to action, trust signals and patient flow to increase engagement and turn more visitors into leads. By creating pages that better satisfy user needs, we also support the engagement and quality signals associated with stronger organic search performance.</p><p><em>Depending on scope and strategic priorities, CRO initiatives may be implemented in phases across multiple months. This deliverable may also be substituted with existing content optimization where it provides a greater SEO and growth opportunity.</em></p><p><em>May be substituted with existing content optimization where strategically appropriate.</em></p>"
   },
   card5: {
-    title: 'Keyword Optimization & A/B Testing',
-    qty: 'x1 page',
-    descHTML: `
-      <p>Targeted keyword refinement and split testing to maximize ranking potential and user engagement on key pages.</p>
-      <p>We test variations in headlines, calls-to-action, and content structure to identify what performs best — ensuring your pages are continuously improving in both search relevance and conversion effectiveness.</p>
-    `
+    title: "Keyword Optimization & A/B Testing",
+    qty: "x1 page",
+    desc: "<p>We analyze large keyword datasets, competitor gaps and emerging search patterns to uncover high-value opportunities others may miss, including high-volume keywords, low-hanging quick wins and conversational queries used across AI/LLM platforms.</p><p>We then refine the page(s) keyword targeting, headlines, and content structure to pursue the fastest ranking opportunities, strengthen engagement and maximize return on your SEO investment.</p>"
   },
   card6: {
-    title: 'Meta Tag & Structured Schema Optimization',
-    qty: 'x1 page',
-    descHTML: `
-      <p>Optimization of page meta titles, meta descriptions, and structured data markup (Schema.org) to enhance how search engines understand your pages.</p>
-      <p>Well-crafted meta tags improve click-through rates from SERPs, while structured schema supports enhanced rich results and increases the likelihood of being cited in AI-generated answers and knowledge panels.</p>
-    `
+    title: "Meta Tag & Structured Schema Optimization",
+    qty: "x1 page",
+    desc: "<p>Using large-scale search data, advanced AI systems and expert human oversight, we continuously A/B test and refine meta data to identify the strongest-performing variations—not only for individual keywords, but across entire keyword clusters.</p><p>We also implement structured data markup to help search engines and AI platforms better understand your content, strengthen topical relevance, and increase eligibility for rich results and AI-powered discovery.</p>"
   },
   card7: {
-    title: 'Internal Architecture Optimization',
-    qty: 'x1 page',
-    descHTML: `
-      <p>Strategic improvement of your site's internal linking structure to distribute page authority effectively and guide both users and search engine crawlers through your highest-priority pages.</p>
-      <p>Strong internal architecture reduces crawl waste, reinforces topical relevance, and ensures your most important content receives the authority signals it needs to rank.</p>
-    `
+    title: "Internal Architecture & PageRank Sculpting",
+    qty: "x1 page",
+    desc: "<p>Using advanced PageRank modelling, we strategically optimize your site structure and internal links to direct authority toward your highest-priority treatments, services and location pages.</p><p>We also implement a carefully planned anchor-text strategy to strengthen topical relevance, expand keyword coverage and help search engines and AI platforms understand the semantic relationships between your content—while creating a clearer journey for prospective leads.</p>"
   },
   card8: {
-    title: 'Core Web Vitals / Technical SEO Optimization',
-    qty: 'x1 page',
-    descHTML: `
-      <p>Technical improvements targeting Google's Core Web Vitals — Largest Contentful Paint (LCP), Interaction to Next Paint (INP), and Cumulative Layout Shift (CLS) — alongside broader technical SEO health.</p>
-      <p>A technically sound, fast-loading page is a prerequisite for competitive rankings. This deliverable ensures your pages meet the performance standards required by modern search algorithms.</p>
-    `
+    title: "Google Core Web Vitals Optimization",
+    qty: "x1 page",
+    desc: "<p>Our Technical SEO specialists and algorithm experts optimize each selected page to pass Google's Core Web Vitals. These standards assess a page's overall technical performance and user experience under real-world conditions, including how efficiently its content, code, scripts and interactive elements load and function across devices.</p><p>Passing these tests creates a smoother experience for prospective patients while meeting Google's performance expectations for modern sites.</p><p><em>This deliverable may be substituted with another high-priority initiative—such as Meta Tag & Structured Schema Optimization, Keyword Optimization & A/B Testing, Internal Architecture Optimization, CRO Optimization or Existing Content Optimization—where it offers greater potential for SEO and business growth.</em></p>"
   },
   card9: {
-    title: 'Digital PR Outreach — Tier 1 Backlinks',
-    qty: 'x2–3',
-    descHTML: `
-      <p>High-authority editorial backlink placements secured through strategic digital PR outreach to reputable publishers and industry media.</p>
-      <p>Tier 1 backlinks are among the most powerful ranking signals available. The number of backlinks is an estimate and may vary based on organic outreach results, third-party publisher decisions, and publication fees outside Wisevu's control.</p>
-    `
+    title: "Digital PR Outreach — Tier 1 Backlinks",
+    qty: "x2–3",
+    desc: "<p>Wisevu takes a highly strategic, reputation-first approach to building off-site authority. We identify and pursue difficult-to-secure editorial opportunities with reputable publishers, journalists, industry media, webmasters and influencers trusted by patients, search engines and AI/LLM platforms. We complement this outreach with the extensive publisher and webmaster network we have built since 2008, enabling faster prospecting, communication and collaboration.</p><p>Our process combines advanced AI-powered research and outreach with expert human oversight and relationship building. Every opportunity is carefully evaluated for authority, relevance, editorial quality and citation potential before we recommend or pursue it.</p><p>We never rely on low-quality, mass-produced or link-farm placements that could put your brand's reputation at risk. Our focus is premium digital PR that strengthens authority, supports traditional search rankings and increases your potential to be discovered and cited in AI-generated results.</p><p><em>The number of placements is an estimate and may vary based on outreach results, publisher decisions, editorial requirements and publication fees outside Wisevu's control.</em></p>"
   },
   card10: {
-    title: 'Supporting Tier 2 Backlinks',
-    qty: 'x10',
-    descHTML: `
-      <p>A network of supporting backlinks built to amplify and strengthen the authority of your Tier 1 placements.</p>
-      <p>These backlinks create a layered link profile that passes authority upward to your Tier 1 links, maximizing their long-term ranking impact and making your backlink portfolio appear more natural and authoritative to search engines.</p>
-    `
+    title: "Supporting Tier 2 Backlinks",
+    qty: "x10",
+    desc: "<p>A network of supporting backlinks built to amplify and strengthen the authority of your Tier 1 placements.</p><p>These backlinks create a layered link profile that passes authority upward to your Tier 1 links, maximizing their long-term ranking impact and making your backlink portfolio appear more natural and authoritative to search engines.</p>"
   },
   card11: {
-    title: 'Authority Protection & SEO Integrity Maintenance',
-    qty: 'x1 site',
-    descHTML: `
-      <p>Ongoing monitoring and protection of your domain's authority profile, ensuring the work we build is preserved and defended over time.</p>
-      <p>Includes toxic link identification and disavowal, algorithm update impact assessment, and proactive SEO health checks — so that your rankings and authority remain stable as search landscapes evolve.</p>
-    `
+    title: "Authority Protection & SEO Integrity Maintenance",
+    qty: "x1 site",
+    desc: "<p>Ongoing monitoring and protection of your domain's authority profile, ensuring the work we build is preserved and defended over time.</p><p>Includes toxic link identification and disavowal, algorithm update impact assessment, and proactive SEO health checks — so that your rankings and authority remain stable as search landscapes evolve.</p>"
   },
   card12: {
-    title: 'Monthly Reporting & Strategy Call',
-    qty: '1 hr',
-    descHTML: `
-      <p>A dedicated 1-hour monthly call to review deliverables, analyze performance metrics, align on strategic priorities, and plan the following month's activities.</p>
-      <p>Includes a written performance report covering key ranking movements, backlink progress, content performance, and strategic recommendations to keep your program on track toward your growth goals.</p>
-    `
+    title: "Monthly Reporting & Strategy Call",
+    qty: "1 hr",
+    desc: "<p>A dedicated 1-hour monthly call with a Wisevu search expert, to analyze performance metrics, align on strategic priorities, and plan the following month's activities.</p><p>Includes a detailed report covering key ranking movements, content performance, and strategic recommendations to keep your program on track toward your growth goals.</p>"
   }
 };
 
 function openModal(btn, id) {
-  const data = popupData[id];
+  var data = popupData[id];
   if (!data) return;
-
-  // Copy icon SVG from the card
-  const card = btn.closest('.card');
-  const iconEl = card.querySelector('.card-icon');
-  document.getElementById('modal-icon').innerHTML = iconEl.innerHTML;
-
+  var card = btn.closest('.card');
+  document.getElementById('modal-icon').innerHTML = card.querySelector('.card-icon').innerHTML;
   document.getElementById('modal-title').textContent = data.title;
   document.getElementById('modal-qty').textContent = data.qty;
-  document.getElementById('modal-desc').innerHTML = data.descHTML;
+  document.getElementById('modal-desc').innerHTML = data.desc;
   document.getElementById('modal-overlay').classList.add('open');
   document.body.style.overflow = 'hidden';
 }
-
 function closeModal() {
   document.getElementById('modal-overlay').classList.remove('open');
   document.body.style.overflow = '';
 }
-
 function handleOverlayClick(e) {
   if (e.target === document.getElementById('modal-overlay')) closeModal();
 }
+document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeModal(); });
 
-document.addEventListener('keydown', function(e) {
-  if (e.key === 'Escape') closeModal();
-});
-
-/* ── Neural network canvas ── */
-(function () {
-  const canvas = document.getElementById('neural-canvas');
-  const ctx = canvas.getContext('2d');
-
-  function resize() {
-    canvas.width  = canvas.offsetWidth;
-    canvas.height = canvas.offsetHeight;
-  }
-
-  const nodes = [];
-  const NODE_COUNT = 72;
-  const MAX_DIST   = 135;
-
+/* Neural network canvas */
+(function() {
+  var canvas = document.getElementById('neural-canvas');
+  var ctx = canvas.getContext('2d');
+  function resize() { canvas.width = canvas.offsetWidth; canvas.height = canvas.offsetHeight; }
+  var nodes = [], NODE_COUNT = 72, MAX_DIST = 135;
   function Node() {
-    this.x  = Math.random() * canvas.width;
-    this.y  = Math.random() * canvas.height;
-    this.vx = (Math.random() - 0.5) * 0.22;
-    this.vy = (Math.random() - 0.5) * 0.22;
-    this.r  = Math.random() * 1.5 + 0.8;
-    this.alpha = Math.random() * 0.4 + 0.25;
-    this.pulse = Math.random() * Math.PI * 2;
-    this.pulseSpeed = 0.01 + Math.random() * 0.015;
+    this.x = Math.random() * canvas.width; this.y = Math.random() * canvas.height;
+    this.vx = (Math.random() - 0.5) * 0.22; this.vy = (Math.random() - 0.5) * 0.22;
+    this.r = Math.random() * 1.5 + 0.8; this.alpha = Math.random() * 0.4 + 0.25;
+    this.pulse = Math.random() * Math.PI * 2; this.pulseSpeed = 0.01 + Math.random() * 0.015;
     this.t = Math.random();
   }
-
-  Node.prototype.update = function () {
-    this.x += this.vx;
-    this.y += this.vy;
-    this.pulse += this.pulseSpeed;
-    if (this.x < 0 || this.x > canvas.width)  this.vx *= -1;
+  Node.prototype.update = function() {
+    this.x += this.vx; this.y += this.vy; this.pulse += this.pulseSpeed;
+    if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
     if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
   };
-
-  /* Interpolate v2 accent blues: #3b7dd8 (59,125,216) → #93c5fd (147,197,253) */
-  Node.prototype.getColor = function (alpha) {
-    const r = Math.round(59  + this.t * (147 - 59));
-    const g = Math.round(125 + this.t * (197 - 125));
-    const b = Math.round(216 + this.t * (253 - 216));
-    return `rgba(${r},${g},${b},${alpha})`;
+  Node.prototype.getColor = function(alpha) {
+    var r = Math.round(59 + this.t * (147 - 59));
+    var g = Math.round(125 + this.t * (197 - 125));
+    var b = Math.round(216 + this.t * (253 - 216));
+    return 'rgba(' + r + ',' + g + ',' + b + ',' + alpha + ')';
   };
-
-  Node.prototype.draw = function () {
-    const pa = this.alpha + Math.sin(this.pulse) * 0.15;
-    const grd = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.r * 5);
-    grd.addColorStop(0, this.getColor(pa * 0.35));
-    grd.addColorStop(1, this.getColor(0));
-    ctx.beginPath();
-    ctx.arc(this.x, this.y, this.r * 5, 0, Math.PI * 2);
-    ctx.fillStyle = grd;
-    ctx.fill();
-    ctx.beginPath();
-    ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
-    ctx.fillStyle = this.getColor(pa);
-    ctx.fill();
+  Node.prototype.draw = function() {
+    var pa = this.alpha + Math.sin(this.pulse) * 0.15;
+    var grd = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.r * 5);
+    grd.addColorStop(0, this.getColor(pa * 0.35)); grd.addColorStop(1, this.getColor(0));
+    ctx.beginPath(); ctx.arc(this.x, this.y, this.r * 5, 0, Math.PI * 2);
+    ctx.fillStyle = grd; ctx.fill();
+    ctx.beginPath(); ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
+    ctx.fillStyle = this.getColor(pa); ctx.fill();
   };
+  function init() { nodes = []; for (var i = 0; i < NODE_COUNT; i++) nodes.push(new Node()); }
 
-  function init() {
-    nodes.length = 0;
-    for (let i = 0; i < NODE_COUNT; i++) nodes.push(new Node());
+  /* Orion — static constellation drawn each frame behind the neural net */
+  function drawConstellation() {
+    var cx = canvas.width / 2;
+    var cy = canvas.height * 0.32;
+    var sc = Math.min(canvas.width * 0.32, canvas.height * 0.58);
+
+    var S = {
+      meissa:    { x:  0.00, y: -0.42, r: 1.7, a: 0.62 },  // head
+      betelgeuse:{ x: -0.22, y: -0.20, r: 3.0, a: 0.88 },  // left shoulder
+      bellatrix: { x:  0.22, y: -0.20, r: 2.0, a: 0.72 },  // right shoulder
+      alnitak:   { x: -0.14, y:  0.06, r: 2.0, a: 0.70 },  // belt left
+      alnilam:   { x:  0.00, y:  0.08, r: 2.2, a: 0.75 },  // belt center
+      mintaka:   { x:  0.14, y:  0.06, r: 1.9, a: 0.68 },  // belt right
+      saiph:     { x: -0.20, y:  0.40, r: 1.9, a: 0.68 },  // left foot
+      rigel:     { x:  0.26, y:  0.38, r: 3.2, a: 0.92 }   // right foot — brightest
+    };
+
+    var lines = [
+      ['meissa','betelgeuse'], ['meissa','bellatrix'],
+      ['betelgeuse','bellatrix'],
+      ['betelgeuse','alnitak'],
+      ['bellatrix','mintaka'],
+      ['alnitak','alnilam'], ['alnilam','mintaka'],
+      ['alnitak','saiph'],
+      ['mintaka','rigel']
+    ];
+
+    ctx.save();
+    /* Lines */
+    ctx.strokeStyle = 'rgba(147,197,253,0.20)';
+    ctx.lineWidth = 1;
+    lines.forEach(function(l) {
+      var a = S[l[0]], b = S[l[1]];
+      ctx.beginPath();
+      ctx.moveTo(cx + a.x * sc, cy + a.y * sc);
+      ctx.lineTo(cx + b.x * sc, cy + b.y * sc);
+      ctx.stroke();
+    });
+
+    /* Stars */
+    Object.keys(S).forEach(function(k) {
+      var s = S[k];
+      var sx = cx + s.x * sc, sy = cy + s.y * sc;
+      var grd = ctx.createRadialGradient(sx, sy, 0, sx, sy, s.r * 5);
+      grd.addColorStop(0, 'rgba(200,225,255,' + (s.a * 0.45) + ')');
+      grd.addColorStop(1, 'rgba(147,197,253,0)');
+      ctx.beginPath(); ctx.arc(sx, sy, s.r * 5, 0, Math.PI * 2);
+      ctx.fillStyle = grd; ctx.fill();
+      ctx.beginPath(); ctx.arc(sx, sy, s.r, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(225,240,255,' + s.a + ')'; ctx.fill();
+    });
+
+    /* Labels for the two brightest */
+    ctx.font = '9px Inter, sans-serif';
+    ctx.fillStyle = 'rgba(147,197,253,0.42)';
+    ctx.fillText('RIGEL', cx + S.rigel.x * sc + 8, cy + S.rigel.y * sc + 4);
+    ctx.fillText('BETELGEUSE', cx + S.betelgeuse.x * sc - 62, cy + S.betelgeuse.y * sc - 8);
+
+    ctx.restore();
   }
 
   function animate() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    for (let i = 0; i < nodes.length; i++) {
-      for (let j = i + 1; j < nodes.length; j++) {
-        const dx   = nodes[i].x - nodes[j].x;
-        const dy   = nodes[i].y - nodes[j].y;
-        const dist = Math.sqrt(dx * dx + dy * dy);
+    drawConstellation();
+    for (var i = 0; i < nodes.length; i++) {
+      for (var j = i + 1; j < nodes.length; j++) {
+        var dx = nodes[i].x - nodes[j].x, dy = nodes[i].y - nodes[j].y;
+        var dist = Math.sqrt(dx * dx + dy * dy);
         if (dist < MAX_DIST) {
-          const lineAlpha = (1 - dist / MAX_DIST) * 0.2;
-          const grad = ctx.createLinearGradient(nodes[i].x, nodes[i].y, nodes[j].x, nodes[j].y);
-          grad.addColorStop(0, nodes[i].getColor(lineAlpha));
-          grad.addColorStop(1, nodes[j].getColor(lineAlpha));
-          ctx.beginPath();
-          ctx.moveTo(nodes[i].x, nodes[i].y);
-          ctx.lineTo(nodes[j].x, nodes[j].y);
-          ctx.strokeStyle = grad;
-          ctx.lineWidth   = 0.7;
-          ctx.stroke();
+          var la = (1 - dist / MAX_DIST) * 0.2;
+          var grad = ctx.createLinearGradient(nodes[i].x, nodes[i].y, nodes[j].x, nodes[j].y);
+          grad.addColorStop(0, nodes[i].getColor(la)); grad.addColorStop(1, nodes[j].getColor(la));
+          ctx.beginPath(); ctx.moveTo(nodes[i].x, nodes[i].y); ctx.lineTo(nodes[j].x, nodes[j].y);
+          ctx.strokeStyle = grad; ctx.lineWidth = 0.7; ctx.stroke();
         }
       }
     }
-
-    nodes.forEach(n => { n.update(); n.draw(); });
+    nodes.forEach(function(n) { n.update(); n.draw(); });
     requestAnimationFrame(animate);
   }
-
-  resize();
-  init();
-  animate();
-  window.addEventListener('resize', function () { resize(); init(); });
+  resize(); init(); animate();
+  window.addEventListener('resize', function() { resize(); init(); });
 })();
 </script>
-
 </body>
 </html>
